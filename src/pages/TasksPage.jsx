@@ -3,10 +3,10 @@ import HeaderComponent from "../components/HeaderComponent"
 import TaskCard from "../components/TaskCard";
 import { TaskContext } from "../context/task.context";
 import CreateTask from "../components/CreateTask";
-import { FaClipboardList } from "react-icons/fa";
+import { FaExclamationTriangle, FaSpinner } from "react-icons/fa";
 
 function TasksPage() {
-    const { tasks, getTasks } = useContext(TaskContext);
+    const { tasks, getTasks, hasError, hasLoaded } = useContext(TaskContext);
 
     useEffect(() => {
         getTasks();
@@ -25,10 +25,22 @@ function TasksPage() {
                 <h2 className="d-flex align-items-center gap-2 text-white mb-4">
                     Task Dashboard
                 </h2>
+
                 <CreateTask />
-                <ul className="list-unstyled">
-                    {taskCards}
-                </ul>
+
+                {hasError ? (
+                    <h2 className="text-danger justify-content-center d-flex align-items-center gap-2">
+                        <FaExclamationTriangle /> Failed to load tasks
+                    </h2>
+                ) : !hasLoaded ? (
+                    <h2 className="text-info d-flex align-items-center gap-2">
+                        <FaSpinner className="spinner-border" /> Loading...
+                    </h2>
+                ) : (
+                    <ul className="list-unstyled">
+                        {taskCards}
+                    </ul>
+                )}
             </section>
         </>
     );
