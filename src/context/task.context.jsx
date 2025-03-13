@@ -3,33 +3,20 @@ import { createContext, useState } from "react";
 const TaskContext = createContext();
 
 function TaskProviderWrapper(props) {
-    const [tasks, setTasks] = useState([
-        {
-            id: '1',
-            title: 'Revisar correos',
-            completed: false,
-        },
-        {
-            id: '2',
-            title: 'Desarrollar nueva funcionalidad en el Task Manager',
-            completed: false,
-        },
-        {
-            id: '3',
-            title: 'Revisar errores en consola y corregir bugs',
-            completed: false,
-        },
-        {
-            id: '4',
-            title: 'Actualizar documentación del proyecto',
-            completed: false,
-        },
-        {
-            id: '5',
-            title: 'Hacer pruebas de UI y ajustes de diseño',
-            completed: false,
-        },
-    ]);
+    const [tasks, setTasks] = useState([]);
+
+    const API_URL = "https://caf51bab2a9762be6229.free.beeceptor.com/api/tasks/";
+
+    const getTasks = async () => {
+        try {
+            console.log('Get Tasks');
+            const response = await fetch(API_URL);
+            const data = await response.json();
+            setTasks(data);
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     const updateTask = (updatedTask) => {
         const updatedTasks = tasks.map(task => {
@@ -40,13 +27,22 @@ function TaskProviderWrapper(props) {
         setTasks(updatedTasks);
     }
 
-    const addTask = (newTask) => {
-        setTasks([newTask, ...tasks]);
+    const addTask = async (newTask) => {
+        try {
+            console.log('Add task');
+            await fetch(API_URL, {
+                method: 'POST',
+                body: JSON.stringify(newTask),
+            });
+
+            setTasks([newTask, ...tasks]);
+        } catch (error) {
+            console.log(error);
+        }
     }
 
-
     return (
-        <TaskContext.Provider value={{ tasks, setTasks, updateTask, addTask }}>
+        <TaskContext.Provider value={{ tasks, setTasks, updateTask, addTask, getTasks }}>
             {props.children}
         </TaskContext.Provider>
     );

@@ -1,5 +1,7 @@
 import { useContext, useState } from "react"
 import { TaskContext } from "../context/task.context"
+import { createId } from "../utils/utils";
+import { FaPlus } from "react-icons/fa";
 
 function CreateTask() {
     const { addTask } = useContext(TaskContext);
@@ -15,7 +17,7 @@ function CreateTask() {
         if (!taskTitle) return;
 
         const newTask = {
-            id: 123,
+            id: createId,
             title: taskTitle,
             completed: false,
         }
@@ -24,11 +26,24 @@ function CreateTask() {
         setTaskTitle('');
     }
     return (
-        <form onSubmit={handleSubmit}>
-            <input placeholder="New Task..." onChange={handleInput} value={taskTitle} />
-            <button>+</button>
+        <form
+            className="d-flex align-items-center bg-dark text-light p-3 rounded shadow-lg mb-4"
+            onSubmit={handleSubmit}
+        >
+            <input
+                className="form-control bg-secondary text-light border-0 me-3"
+                placeholder="New Task..."
+                onChange={handleInput}
+                value={taskTitle}
+            />
+            <button
+                type="submit"
+                className="btn btn-success d-flex align-items-center justify-content-center"
+            >
+                <FaPlus size={20} />
+            </button>
         </form>
-    )
+    );
 }
 
 export default CreateTask
