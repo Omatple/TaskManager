@@ -1,9 +1,9 @@
-import { useContext, useEffect } from "react"
+import React, { useContext, useEffect } from "react"
 import HeaderComponent from "../components/HeaderComponent"
 import TaskCard from "../components/TaskCard";
 import { TaskContext } from "../context/task.context";
 import CreateTask from "../components/CreateTask";
-import { FaExclamationTriangle, FaSpinner } from "react-icons/fa";
+import { FaExclamationTriangle } from "react-icons/fa";
 
 function TasksPage() {
     const { tasks, getTasks, hasError, hasLoaded } = useContext(TaskContext);
@@ -22,19 +22,19 @@ function TasksPage() {
         <>
             <HeaderComponent />
             <section className="container my-4 p-4 bg-dark text-light rounded shadow-lg">
-                <h2 className="d-flex align-items-center gap-2 text-white mb-4">
+                <h2 data-testid="tasks-title" className="d-flex align-items-center gap-2 text-white mb-4">
                     Task Dashboard
                 </h2>
 
                 <CreateTask />
 
                 {hasError ? (
-                    <h2 className="text-danger justify-content-center d-flex align-items-center gap-2">
-                        <FaExclamationTriangle /> Failed to load tasks
+                    <h2 data-testid="error-msg" className="text-danger justify-content-center d-flex align-items-center gap-2">
+                        <FaExclamationTriangle />Failed to load tasks
                     </h2>
                 ) : !hasLoaded ? (
-                    <h2 className="text-info d-flex align-items-center gap-2">
-                        <FaSpinner className="spinner-border" /> Loading...
+                    <h2 data-testid="loading-msg" className="text-white d-flex justify-content-center align-items-center gap-2">
+                        <div className="spinner-border" />Loading...
                     </h2>
                 ) : (
                     <ul className="list-unstyled">

@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import React, { createContext, useState } from "react";
 
 const TaskContext = createContext();
 
@@ -7,7 +7,7 @@ function TaskProviderWrapper(props) {
     const [hasLoaded, setLoaded] = useState(false);
     const [hasError, setError] = useState(false);
 
-    // const API_URL = "https://caf51bab2a9762be6229.free.beeceptor.com/api/tasks/";
+    const API_URL = "https://caf51bab2a9762be6229.free.beeceptor.com/api/tasks/";
 
     const getTasks = async () => {
         if (hasLoaded) return;
